@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import { User } from "../models/user";
 import { Task } from "../models/task";
 
-const PostgresDataSource = new DataSource({
+export const PostgresDataSource = new DataSource({
     type: "postgres",
     host: process.env.DB_HOST,
     port: 5432,
@@ -14,7 +14,6 @@ const PostgresDataSource = new DataSource({
 });
 
 export const connectToDatabase = () => {
-    console.log("->", typeof(process.env.DB_PSW));
     PostgresDataSource.initialize()
     .then(()=>{
         console.log("Connected to DB successfully now.");
