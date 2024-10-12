@@ -5,10 +5,14 @@ export class User{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'varchar'
+    })
     name: string;
 
-    @Column()
+    @Column({
+        type: 'varchar'
+    })
     password: string;
 
     @OneToMany(()=>Task, (task)=>task.user)
