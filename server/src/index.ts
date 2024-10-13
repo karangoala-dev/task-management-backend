@@ -7,6 +7,8 @@ import { User } from './models/user';
 import * as bcryptjs from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { Task } from './models/task';
+import { sendMessage } from './kafka/kafka_producer';
+import { readMessages } from './kafka/kafka_consumer';
 
 const app = express();
 app.use(express.json());
@@ -74,6 +76,8 @@ app.post('/create/task', async(req: express.Request, res: express.Response)=>{
         taskObj.user = userObj;
         const taskRepository = PostgresDataSource.getRepository(Task);
         const task = await taskRepository.save(taskObj);
+
+        sendMessage(`Task created : ${taskObj.toString()}`);
 
         res.status(201).json({task: task});
         return;
@@ -148,6 +152,7 @@ app.delete('/delete/task', async(req: express.Request, res: express.Response)=>{
     }
 });
 
+readMessages();
 connectToDatabase();
 app.listen(process.env.APP_PORT, () => {
     console.log(`Server running on port 1010`)

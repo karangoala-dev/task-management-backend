@@ -19,4 +19,13 @@ export class Task{
 
     @ManyToOne(()=>User, (user)=>user.tasks)
     user: User;
+
+    toString(): string{
+        return `Task Data{
+            id: ${this.id},
+            title: ${this.title},
+            status: ${this.status},
+            user: ${this.user.name}
+        }`;
+    }
 }
